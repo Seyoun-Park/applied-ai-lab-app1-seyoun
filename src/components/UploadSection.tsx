@@ -9,9 +9,6 @@ import {
   Eye,
   X,
   Search,
-  Sparkles,
-  ChevronDown,
-  ChevronUp,
   Sliders,
   Check,
 } from 'lucide-react';
@@ -119,19 +116,17 @@ export const UploadSection: React.FC<UploadSectionProps> = ({
   }, [currentRecords, searchTerm]);
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm p-6 space-y-4">
-      {/* Top Banner & Title */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="bg-[#0e0e0e] border border-[#262626] p-4 space-y-3.5">
+      {/* Terminal Title & Controls */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between pb-3 border-b border-[#222222] gap-3">
         <div>
-          <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <FileSpreadsheet className="w-6 h-6 text-blue-600" />
-            Upload Sales Orders CSV
-          </h2>
-          <p className="text-xs text-slate-500 mt-1">
-            Required columns:{' '}
-            <span className="font-mono bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded">
-              quarter, region, channel, product, units, discount_pct, revenue
+          <div className="flex items-center gap-2">
+            <span className="text-[#ff8c00] font-bold text-sm tracking-wider">
+              [01 // CSV DATA INGESTION &amp; NORMALIZATION ENGINE]
             </span>
+          </div>
+          <p className="text-[11px] text-[#777777] mt-1 font-mono">
+            SCHEMA: <span className="text-[#00ff66]">quarter, region, channel, product, units, discount_pct, revenue</span>
           </p>
         </div>
 
@@ -139,17 +134,17 @@ export const UploadSection: React.FC<UploadSectionProps> = ({
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={handleLoadDemo}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#ff8c00] hover:bg-[#ffa000] text-black font-extrabold text-xs tracking-wider transition-colors cursor-pointer"
           >
-            <PlayCircle className="w-4 h-4" />
-            <span>Load Demo Dataset</span>
+            <PlayCircle className="w-3.5 h-3.5" />
+            <span>LOAD DEMO &lt;GO&gt;</span>
           </button>
           <button
             onClick={handleDownloadTemplate}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 rounded-lg text-xs font-medium transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#161616] hover:bg-[#222222] text-[#cccccc] hover:text-white border border-[#333333] hover:border-[#ff8c00] text-xs font-semibold transition-colors cursor-pointer"
           >
-            <Download className="w-4 h-4 text-slate-500" />
-            <span>Download CSV Template</span>
+            <Download className="w-3.5 h-3.5 text-[#ff8c00]" />
+            <span>EXPORT TEMPLATE</span>
           </button>
         </div>
       </div>
@@ -160,10 +155,10 @@ export const UploadSection: React.FC<UploadSectionProps> = ({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`relative border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all ${
+        className={`relative border border-dashed p-4 text-center cursor-pointer transition-all ${
           isDragging
-            ? 'border-blue-500 bg-blue-50/50 scale-[0.99]'
-            : 'border-slate-300 hover:border-slate-400 bg-slate-50/50 hover:bg-slate-50'
+            ? 'border-[#ff8c00] bg-[#1a1100]'
+            : 'border-[#2e2e2e] hover:border-[#ff8c00] bg-[#080808] hover:bg-[#0c0c0c]'
         }`}
       >
         <input
@@ -174,29 +169,27 @@ export const UploadSection: React.FC<UploadSectionProps> = ({
           className="hidden"
         />
 
-        <div className="flex flex-col items-center justify-center space-y-2">
-          <div className="p-3 bg-white rounded-full shadow-xs border border-slate-200 text-blue-600">
-            <Upload className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-slate-800">
-              Click to browse or drag and drop your sales orders CSV
-            </p>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Supports standard comma-separated files up to 10MB
-            </p>
+        <div className="flex items-center justify-center gap-3">
+          <Upload className="w-4 h-4 text-[#ff8c00]" />
+          <div className="text-xs">
+            <span className="text-[#ffffff] font-semibold">
+              CLICK TO BROWSE OR DRAG &amp; DROP CSV FILE
+            </span>
+            <span className="text-[#666666] ml-2 text-[11px]">
+              [ASCII / UTF-8 CSV &le; 10MB]
+            </span>
           </div>
         </div>
       </div>
 
       {/* Errors display */}
       {errorMessages.length > 0 && (
-        <div className="p-4 bg-rose-50 border border-rose-200 rounded-lg text-xs text-rose-800 space-y-1">
-          <div className="flex items-center gap-1.5 font-semibold text-rose-900">
-            <AlertCircle className="w-4 h-4 text-rose-600" />
-            <span>CSV Parsing Warning / Errors:</span>
+        <div className="p-3 bg-[#1e0a0a] border border-[#ff3b30]/60 text-xs text-[#ff6b6b] space-y-1">
+          <div className="flex items-center gap-1.5 font-bold text-[#ff3b30]">
+            <AlertCircle className="w-4 h-4 text-[#ff3b30]" />
+            <span>[WARNING] PARSER ANOMALIES DETECTED:</span>
           </div>
-          <ul className="list-disc pl-5 space-y-0.5">
+          <ul className="list-disc pl-5 space-y-0.5 text-[11px] text-[#ffaaaa]">
             {errorMessages.map((msg, idx) => (
               <li key={idx}>{msg}</li>
             ))}
@@ -206,130 +199,115 @@ export const UploadSection: React.FC<UploadSectionProps> = ({
 
       {/* Data Cleaning Intelligence Banner */}
       {currentRecords.length > 0 && (
-        <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/60 to-purple-50/70 border border-blue-200/80 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-          <div className="flex items-start sm:items-center gap-3">
-            <div className="p-2 bg-blue-600 text-white rounded-lg shrink-0 mt-0.5 sm:mt-0">
-              <Sparkles className="w-4 h-4" />
+        <div className="bg-[#121212] border border-[#2a2a2a] p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-3">
+            <div className="text-[#00e5ff] font-bold text-[11px] flex items-center gap-1.5">
+              <span>[TEXT NORMALIZATION]</span>
             </div>
-            <div>
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="font-bold text-slate-900">Smart Text Normalization</span>
-                {totalCleanedModifications > 0 ? (
-                  <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-1">
-                    <Check className="w-3 h-3" />
-                    Cleaned {totalCleanedModifications} inconsistencies
-                  </span>
-                ) : (
-                  <span className="px-2 py-0.5 rounded-full text-[11px] font-medium bg-slate-100 text-slate-600">
-                    All text clean & consistent
-                  </span>
-                )}
-              </div>
-              <p className="text-slate-600 mt-0.5">
-                Automatically consolidates human casing errors (e.g.{' '}
-                <span className="font-semibold text-slate-800">"west"</span> &{' '}
-                <span className="font-semibold text-slate-800">"West"</span> →{' '}
-                <span className="font-semibold text-blue-700">"West"</span>), trims excess spaces,
-                and harmonizes acronyms.
-              </p>
+            <div className="text-xs text-[#aaaaaa]">
+              {totalCleanedModifications > 0 ? (
+                <span className="text-[#00ff66] font-semibold">
+                  STATUS: HARMONIZED {totalCleanedModifications} ENTRIES (Casing, Aliases, Whitespace)
+                </span>
+              ) : (
+                <span className="text-[#888888]">
+                  STATUS: ZERO SYNTAX INCONSISTENCIES
+                </span>
+              )}
             </div>
           </div>
 
-          <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+          <div className="flex items-center gap-2">
             {totalCleanedModifications > 0 && (
               <button
                 onClick={() => setShowCleaningModal(true)}
-                className="px-3 py-1.5 bg-white hover:bg-slate-50 text-blue-700 font-semibold border border-blue-200 rounded-lg shadow-2xs transition-colors cursor-pointer"
+                className="px-2.5 py-1 bg-[#1a1a1a] hover:bg-[#252525] text-[#00e5ff] font-bold border border-[#00e5ff]/40 text-[11px] transition-colors cursor-pointer"
               >
-                View Corrections ({cleaningAudits.length})
+                VIEW AUDIT LOG ({cleaningAudits.length})
               </button>
             )}
 
             {/* Toggle cleaning */}
             <button
               onClick={() => onToggleAutoClean(!autoCleanEnabled)}
-              className={`px-3 py-1.5 rounded-lg font-medium border text-xs transition-colors flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 py-1 text-[11px] font-bold border transition-colors cursor-pointer ${
                 autoCleanEnabled
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'
+                  ? 'bg-[#00ff66]/10 text-[#00ff66] border-[#00ff66]/50'
+                  : 'bg-[#181818] text-[#888888] border-[#333333]'
               }`}
               title="Toggle automatic text cleaning"
             >
-              <Sliders className="w-3.5 h-3.5" />
-              <span>Auto-Clean: {autoCleanEnabled ? 'ON' : 'OFF'}</span>
+              AUTO-CLEAN: {autoCleanEnabled ? 'ENABLED' : 'DISABLED'}
             </button>
           </div>
         </div>
       )}
 
-      {/* File status pill if loaded */}
+      {/* File status banner if loaded */}
       {currentRecords.length > 0 && (
-        <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-emerald-50/70 border border-emerald-200/80 rounded-lg text-xs text-emerald-900">
+        <div className="flex flex-wrap items-center justify-between gap-3 p-2.5 bg-[#0a120a] border border-[#00ff66]/30 text-xs">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span className="font-semibold">{currentFileName || 'Custom CSV'}</span>
-            <span className="text-emerald-700">
-              — Successfully parsed {currentRecords.length.toLocaleString()} valid sales order rows
+            <span className="text-[#00ff66] font-bold">[ACTIVE DATASET]</span>
+            <span className="text-white font-semibold">{currentFileName || 'Custom CSV'}</span>
+            <span className="text-[#888888] text-[11px]">
+              &middot; {currentRecords.length.toLocaleString()} ROWS INGESTED
             </span>
           </div>
 
           <button
             onClick={() => setShowRawModal(true)}
-            className="inline-flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-emerald-100/50 border border-emerald-300 text-emerald-800 rounded font-medium transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#161616] hover:bg-[#222222] border border-[#333333] hover:border-[#00ff66] text-[#00ff66] text-[11px] font-bold transition-colors cursor-pointer"
           >
             <Eye className="w-3.5 h-3.5" />
-            <span>Preview Records Table</span>
+            <span>RAW DATA LEDGER</span>
           </button>
         </div>
       )}
 
       {/* Cleaning Audit Modal */}
       {showCleaningModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
-            <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-blue-600" />
-                <div>
-                  <h3 className="font-semibold text-slate-900 text-base">
-                    Text Cleaning & Harmonization Audit
-                  </h3>
-                  <p className="text-xs text-slate-500">
-                    The following inconsistent text entries were unified into standardized values
-                  </p>
-                </div>
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+          <div className="bg-[#0e0e0e] border-2 border-[#00e5ff] w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden font-mono text-xs">
+            <div className="p-3 border-b border-[#222222] flex items-center justify-between bg-[#141414]">
+              <div>
+                <h3 className="font-bold text-[#00e5ff] text-sm uppercase">
+                  [AUDIT LOG // TEXT NORMALIZATION MATRIX]
+                </h3>
+                <p className="text-[10px] text-[#777777]">
+                  Raw string reconciliations mapped to standardized dimensions
+                </p>
               </div>
               <button
                 onClick={() => setShowCleaningModal(false)}
-                className="p-1 hover:bg-slate-200 rounded text-slate-500 cursor-pointer"
+                className="p-1 hover:bg-[#222222] text-[#888888] hover:text-white cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="overflow-auto flex-1 p-4">
+            <div className="overflow-auto flex-1 p-3">
               <table className="w-full text-xs text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-100 text-slate-700 font-semibold uppercase text-[10px] tracking-wider">
-                    <th className="p-2.5">Column</th>
-                    <th className="p-2.5">Original Raw Text</th>
-                    <th className="p-2.5">Cleaned / Unified Value</th>
-                    <th className="p-2.5 text-right">Rows Affected</th>
+                  <tr className="bg-[#181818] text-[#ff8c00] font-bold uppercase text-[10px] border-b border-[#2a2a2a]">
+                    <th className="p-2">DIMENSION</th>
+                    <th className="p-2">RAW STRING</th>
+                    <th className="p-2">UNIFIED VALUE</th>
+                    <th className="p-2 text-right">ROW COUNT</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-[#1e1e1e]">
                   {cleaningAudits.map((item, idx) => (
-                    <tr key={idx} className="hover:bg-slate-50">
-                      <td className="p-2.5 font-semibold text-slate-800 capitalize">
+                    <tr key={idx} className="hover:bg-[#161616]">
+                      <td className="p-2 font-bold text-[#cccccc] uppercase">
                         {item.column}
                       </td>
-                      <td className="p-2.5 font-mono text-rose-700 bg-rose-50/50 rounded">
+                      <td className="p-2 font-mono text-[#ff4444]">
                         "{item.original}"
                       </td>
-                      <td className="p-2.5 font-mono font-semibold text-emerald-800 bg-emerald-50/50 rounded">
+                      <td className="p-2 font-mono font-bold text-[#00ff66]">
                         "{item.cleaned}"
                       </td>
-                      <td className="p-2.5 text-right font-mono font-medium text-slate-700">
+                      <td className="p-2 text-right font-mono text-[#ffffff] tabular-nums">
                         {item.count}
                       </td>
                     </tr>
@@ -338,15 +316,15 @@ export const UploadSection: React.FC<UploadSectionProps> = ({
               </table>
             </div>
 
-            <div className="p-3 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
-              <span className="text-xs text-slate-500">
-                Total modifications applied: {totalCleanedModifications}
+            <div className="p-3 border-t border-[#222222] bg-[#141414] flex items-center justify-between text-[11px]">
+              <span className="text-[#888888]">
+                TOTAL MODIFICATIONS: <span className="text-[#00ff66] font-bold">{totalCleanedModifications}</span>
               </span>
               <button
                 onClick={() => setShowCleaningModal(false)}
-                className="px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded text-xs font-semibold cursor-pointer"
+                className="px-3 py-1 bg-[#ff8c00] hover:bg-[#ffa000] text-black font-extrabold uppercase text-xs cursor-pointer"
               >
-                Done
+                CLOSE &lt;ESC&gt;
               </button>
             </div>
           </div>
@@ -355,61 +333,61 @@ export const UploadSection: React.FC<UploadSectionProps> = ({
 
       {/* Raw Records Modal */}
       {showRawModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden">
-            <div className="p-4 border-b border-slate-200 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+          <div className="bg-[#0e0e0e] border-2 border-[#ff8c00] w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden font-mono text-xs">
+            <div className="p-3 border-b border-[#222222] flex items-center justify-between bg-[#141414]">
               <div>
-                <h3 className="font-semibold text-slate-900 text-base">
-                  Sales Order Records ({currentRecords.length})
+                <h3 className="font-bold text-[#ff8c00] text-sm uppercase">
+                  [RAW RECORD VIEWER // {currentFileName}]
                 </h3>
-                <p className="text-xs text-slate-500">
-                  Showing first 60 matched rows from {currentFileName} (Normalized)
+                <p className="text-[10px] text-[#777777]">
+                  Showing first 60 rows normalized from ingested stream
                 </p>
               </div>
               <button
                 onClick={() => setShowRawModal(false)}
-                className="p-1 hover:bg-slate-100 rounded text-slate-500 cursor-pointer"
+                className="p-1 hover:bg-[#222222] text-[#888888] hover:text-white cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="p-3 border-b border-slate-100 bg-slate-50 flex items-center gap-2">
-              <Search className="w-4 h-4 text-slate-400" />
+            <div className="p-2.5 border-b border-[#1f1f1f] bg-[#0a0a0a] flex items-center gap-2">
+              <Search className="w-3.5 h-3.5 text-[#ff8c00]" />
               <input
                 type="text"
-                placeholder="Search by region, quarter, product, channel, or original raw string..."
+                placeholder="FILTER BY REGION, PRODUCT, CHANNEL, QUARTER..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="bg-transparent text-xs w-full focus:outline-hidden"
+                className="bg-transparent text-xs text-white w-full focus:outline-hidden placeholder:text-[#555555]"
               />
             </div>
 
             <div className="overflow-auto flex-1 p-2">
               <table className="w-full text-xs text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-100 text-slate-700 font-semibold uppercase text-[10px] tracking-wider">
-                    <th className="p-2">Quarter</th>
-                    <th className="p-2">Region</th>
-                    <th className="p-2">Channel</th>
-                    <th className="p-2">Product</th>
-                    <th className="p-2 text-right">Units</th>
-                    <th className="p-2 text-right">Discount</th>
-                    <th className="p-2 text-right">Revenue</th>
+                  <tr className="bg-[#181818] text-[#ff8c00] font-bold uppercase text-[10px] border-b border-[#2a2a2a]">
+                    <th className="p-2">QUARTER</th>
+                    <th className="p-2">REGION</th>
+                    <th className="p-2">CHANNEL</th>
+                    <th className="p-2">PRODUCT</th>
+                    <th className="p-2 text-right">UNITS</th>
+                    <th className="p-2 text-right">DISCOUNT</th>
+                    <th className="p-2 text-right">REVENUE</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-[#181818]">
                   {filteredRecords.map((r) => {
                     const wasRegionModified = r.rawRegion && r.rawRegion !== r.region;
                     return (
-                      <tr key={r.id} className="hover:bg-slate-50">
-                        <td className="p-2 font-semibold text-slate-800">{r.quarter}</td>
-                        <td className="p-2 text-slate-700">
+                      <tr key={r.id} className="hover:bg-[#141414]">
+                        <td className="p-2 text-[#ffcc00] font-bold">{r.quarter}</td>
+                        <td className="p-2 text-white">
                           <div className="flex items-center gap-1.5">
                             <span>{r.region}</span>
                             {wasRegionModified && (
                               <span
-                                className="text-[10px] bg-amber-100 text-amber-800 px-1 py-0.5 rounded font-mono"
+                                className="text-[10px] bg-[#221500] text-[#ff8c00] px-1 py-0.2 border border-[#ff8c00]/40 font-mono"
                                 title={`Original CSV value was: "${r.rawRegion}"`}
                               >
                                 raw: "{r.rawRegion}"
@@ -417,11 +395,11 @@ export const UploadSection: React.FC<UploadSectionProps> = ({
                             )}
                           </div>
                         </td>
-                        <td className="p-2 text-slate-600">{r.channel}</td>
-                        <td className="p-2 text-slate-600">{r.product}</td>
-                        <td className="p-2 text-right font-mono">{r.units.toLocaleString()}</td>
-                        <td className="p-2 text-right font-mono">{r.discount_pct.toFixed(1)}%</td>
-                        <td className="p-2 text-right font-mono font-medium text-slate-900">
+                        <td className="p-2 text-[#aaaaaa]">{r.channel}</td>
+                        <td className="p-2 text-[#cccccc]">{r.product}</td>
+                        <td className="p-2 text-right font-mono tabular-nums text-white">{r.units.toLocaleString()}</td>
+                        <td className="p-2 text-right font-mono tabular-nums text-[#ffcc00]">{r.discount_pct.toFixed(1)}%</td>
+                        <td className="p-2 text-right font-mono tabular-nums font-bold text-[#00ff66]">
                           ${r.revenue.toLocaleString()}
                         </td>
                       </tr>
@@ -431,12 +409,12 @@ export const UploadSection: React.FC<UploadSectionProps> = ({
               </table>
             </div>
 
-            <div className="p-3 border-t border-slate-200 bg-slate-50 text-right">
+            <div className="p-3 border-t border-[#222222] bg-[#141414] text-right">
               <button
                 onClick={() => setShowRawModal(false)}
-                className="px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded text-xs font-semibold cursor-pointer"
+                className="px-3.5 py-1 bg-[#ff8c00] hover:bg-[#ffa000] text-black font-extrabold uppercase text-xs cursor-pointer"
               >
-                Close
+                DISMISS &lt;ESC&gt;
               </button>
             </div>
           </div>

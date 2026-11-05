@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { SalesAnalysisResult, AiSummaryResponse } from '../types/sales';
 import {
-  Sparkles,
   RefreshCw,
   Copy,
   Check,
-  ShieldCheck,
   ChevronDown,
   ChevronUp,
   AlertCircle,
@@ -114,20 +112,19 @@ export const AiSummaryCard: React.FC<AiSummaryCardProps> = ({
   // Helper to split text into sentences
   const sentences = React.useMemo(() => {
     if (!summaryData?.summary) return [];
-    // Match sentences ending in ., !, or ?
     const raw = summaryData.summary.match(/[^.!?]+[.!?]+/g) || [summaryData.summary];
     return raw.map((s) => s.trim());
   }, [summaryData]);
 
   if (!analysis.hasQ2AndQ3) {
     return (
-      <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 text-amber-900 flex items-start gap-3">
-        <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
-        <div>
-          <h4 className="font-semibold text-sm">Q2 and Q3 Data Required for AI Summary</h4>
-          <p className="text-xs text-amber-700 mt-1">
-            The uploaded CSV dataset contains quarters [{analysis.quarters.join(', ')}], but must contain both{' '}
-            <span className="font-semibold">Q2</span> and <span className="font-semibold">Q3</span> for the AI to calculate and summarize the regional shift.
+      <div className="bg-[#181100] border border-[#ff8c00]/50 p-4 text-[#ffcc00] flex items-start gap-3">
+        <AlertCircle className="w-5 h-5 text-[#ff8c00] shrink-0 mt-0.5" />
+        <div className="text-xs">
+          <span className="font-bold text-[#ff8c00] uppercase">[PREREQUISITE NOTICE: Q2 &amp; Q3 REQUIRED]</span>
+          <p className="text-[#ddaa00] mt-1">
+            Current dataset contains quarters [{analysis.quarters.join(', ')}]. Synthesizer requires both{' '}
+            <span className="font-bold text-white">Q2</span> and <span className="font-bold text-white">Q3</span> to compute regional delta and drivers.
           </p>
         </div>
       </div>
@@ -135,134 +132,135 @@ export const AiSummaryCard: React.FC<AiSummaryCardProps> = ({
   }
 
   return (
-    <div className="relative bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-xl shadow-lg border border-indigo-800/40 overflow-hidden">
-      {/* Decorative accent glow */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-
-      {/* Header bar */}
-      <div className="relative z-10 px-6 py-4 border-b border-indigo-800/50 flex flex-col md:flex-row md:items-center justify-between gap-3">
+    <div className="bg-[#0e0e0e] border border-[#ff8c00] text-[#e0e0e0] overflow-hidden">
+      {/* Bloomberg Intelligence Banner Header */}
+      <div className="bg-[#141414] px-4 py-2.5 border-b border-[#282828] flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-indigo-600/30 text-indigo-300 border border-indigo-500/30">
-            <Sparkles className="w-5 h-5 text-indigo-300" />
+          <div className="bg-[#ff8c00] text-black px-1.5 py-0.5 text-[11px] font-extrabold tracking-wider">
+            BI &lt;GO&gt;
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="font-semibold text-base text-white">AI Executive Summary: Q2 to Q3 Shift</h3>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                <ShieldCheck className="w-3 h-3" />
-                Verified App Calculations Only
+              <h3 className="font-bold text-sm text-white tracking-wide uppercase">
+                [03 // BLOOMBERG INTELLIGENCE: Q2 → Q3 SALES SYNTHESIS]
+              </h3>
+              <span className="hidden sm:inline text-[#00ff66] text-[10px] border border-[#00ff66]/40 px-1.5 py-0.2 bg-[#00ff66]/10 font-bold">
+                GROUND-TRUTH ARITHMETIC VERIFIED
               </span>
             </div>
-            <p className="text-xs text-indigo-200/70">
-              Three-sentence intelligence brief analyzing which region changed most and the underlying drivers
+            <p className="text-[11px] text-[#888888]">
+              Three-sentence brief analyzing top regional mover and underlying drivers using app-calculated figures
             </p>
           </div>
         </div>
 
         {/* Action and Metric Controls */}
-        <div className="flex items-center gap-2 self-start md:self-auto">
+        <div className="flex items-center gap-2 self-start md:self-auto text-xs">
           {/* Rank metric toggle */}
-          <div className="flex items-center bg-indigo-950/80 border border-indigo-700/40 rounded-lg p-0.5 text-xs">
+          <div className="flex items-center bg-[#090909] border border-[#333333] p-0.5">
             <button
               onClick={() => onMetricChange('dollar')}
-              className={`px-2.5 py-1 rounded-md transition-all ${
+              className={`px-2.5 py-1 text-xs font-bold transition-all cursor-pointer ${
                 selectedMetric === 'dollar'
-                  ? 'bg-indigo-600 text-white font-medium shadow-xs'
-                  : 'text-indigo-200 hover:text-white'
+                  ? 'bg-[#ff8c00] text-black'
+                  : 'text-[#888888] hover:text-white'
               }`}
               title="Rank by highest absolute dollar change"
             >
-              Max $ Change
+              $ DELTA &lt;F7&gt;
             </button>
             <button
               onClick={() => onMetricChange('percent')}
-              className={`px-2.5 py-1 rounded-md transition-all ${
+              className={`px-2.5 py-1 text-xs font-bold transition-all cursor-pointer ${
                 selectedMetric === 'percent'
-                  ? 'bg-indigo-600 text-white font-medium shadow-xs'
-                  : 'text-indigo-200 hover:text-white'
+                  ? 'bg-[#ff8c00] text-black'
+                  : 'text-[#888888] hover:text-white'
               }`}
               title="Rank by highest percentage change"
             >
-              Max % Change
+              % DELTA &lt;F8&gt;
             </button>
           </div>
 
           <button
             onClick={generateSummary}
             disabled={loading}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600/40 hover:bg-indigo-600/60 border border-indigo-500/40 rounded-lg text-xs font-medium text-white transition-all disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1a1a1a] hover:bg-[#252525] border border-[#444444] hover:border-[#ff8c00] text-xs font-bold text-white transition-all disabled:opacity-50 cursor-pointer"
             title="Regenerate Summary"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-            <span>{loading ? 'Analyzing...' : 'Regenerate'}</span>
+            <RefreshCw className={`w-3 h-3 text-[#ff8c00] ${loading ? 'animate-spin' : ''}`} />
+            <span>{loading ? 'CALCULATING...' : 'RERUN &lt;GO&gt;'}</span>
           </button>
 
           <button
             onClick={handleCopy}
             disabled={!summaryData}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/15 rounded-lg text-xs font-medium text-white transition-all disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#1a1a1a] hover:bg-[#252525] border border-[#444444] hover:border-[#00e5ff] text-xs font-bold text-[#00e5ff] transition-all disabled:opacity-50 cursor-pointer"
             title="Copy 3-Sentence Summary"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copied ? 'Copied' : 'Copy'}</span>
+            {copied ? <Check className="w-3 h-3 text-[#00ff66]" /> : <Copy className="w-3 h-3" />}
+            <span>{copied ? 'COPIED' : 'COPY'}</span>
           </button>
         </div>
       </div>
 
       {/* Content Body */}
-      <div className="relative z-10 p-6">
+      <div className="p-4 bg-[#0a0a0a]">
         {loading && (
-          <div className="py-6 space-y-3">
-            <div className="flex items-center gap-2 text-indigo-300 text-xs animate-pulse">
-              <Sparkles className="w-4 h-4 animate-spin" />
-              <span>Synthesizing calculated regional drivers into exactly three sentences...</span>
+          <div className="py-5 space-y-2">
+            <div className="flex items-center gap-2 text-[#ff8c00] text-xs">
+              <span className="animate-pulse">SYNTHESIZING APP-CALCULATED REGIONAL DRIVERS INTO STRICTLY 3 SENTENCES...</span>
             </div>
-            <div className="h-4 bg-indigo-900/50 rounded-md w-full animate-pulse" />
-            <div className="h-4 bg-indigo-900/50 rounded-md w-11/12 animate-pulse" />
-            <div className="h-4 bg-indigo-900/50 rounded-md w-4/5 animate-pulse" />
+            <div className="h-3 bg-[#181818] w-full animate-pulse border border-[#222222]" />
+            <div className="h-3 bg-[#181818] w-11/12 animate-pulse border border-[#222222]" />
+            <div className="h-3 bg-[#181818] w-4/5 animate-pulse border border-[#222222]" />
           </div>
         )}
 
         {error && (
-          <div className="p-4 bg-rose-500/10 border border-rose-500/30 rounded-lg text-xs text-rose-300 flex items-start gap-2.5">
-            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+          <div className="p-3 bg-[#240a0a] border border-[#ff3b30] text-xs text-[#ff8888] flex items-start gap-2.5">
+            <AlertCircle className="w-4 h-4 text-[#ff3b30] shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <span className="font-semibold">Unable to generate summary:</span>
+              <span className="font-bold text-[#ff3b30]">[ERROR] UNABLE TO GENERATE SUMMARY:</span>
               <p>{error}</p>
               <button
                 onClick={generateSummary}
-                className="mt-2 inline-flex items-center gap-1 text-rose-200 underline hover:text-white"
+                className="mt-1 text-[#ff8c00] underline font-bold cursor-pointer"
               >
-                Try again
+                RETRY COMMAND
               </button>
             </div>
           </div>
         )}
 
         {!loading && !error && summaryData && (
-          <div className="space-y-5">
+          <div className="space-y-4">
             {/* The 3-Sentence Executive Text */}
-            <div className="space-y-3">
+            <div className="space-y-2">
               {sentences.length === 3 ? (
-                // Highlighted 3-sentence presentation
-                <div className="grid grid-cols-1 gap-2.5">
+                <div className="grid grid-cols-1 gap-2">
                   {sentences.map((sentence, idx) => {
-                    const badges = [
-                      'Sentence 1: Region & Revenue Delta',
-                      'Sentence 2: Product & Channel Drivers',
-                      'Sentence 3: Volume & Discount Context',
+                    const headers = [
+                      '[01 // VARIANCE LEAD]',
+                      '[02 // DRIVER DECOMPOSITION]',
+                      '[03 // VOLUME & DISCOUNTING CONTEXT]',
+                    ];
+                    const headerColors = [
+                      'text-[#ff8c00]',
+                      'text-[#00e5ff]',
+                      'text-[#ffd700]',
                     ];
                     return (
                       <div
                         key={idx}
-                        className="p-3.5 rounded-lg bg-white/5 border border-indigo-700/30 hover:border-indigo-500/40 hover:bg-white/[0.07] transition-all"
+                        className="p-3 bg-[#111111] border-l-2 border-l-[#ff8c00] border-y border-r border-[#1f1f1f] hover:border-[#ff8c00]/60 transition-colors"
                       >
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-                            {badges[idx] || `Sentence ${idx + 1}`}
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className={`text-[10px] font-extrabold tracking-wider ${headerColors[idx] || 'text-[#ff8c00]'}`}>
+                            {headers[idx] || `[0${idx + 1} // STATEMENT]`}
                           </span>
                         </div>
-                        <p className="text-sm md:text-base leading-relaxed text-indigo-50 font-normal">
+                        <p className="text-xs sm:text-sm leading-relaxed text-[#f0f0f0] font-mono">
                           {sentence}
                         </p>
                       </div>
@@ -270,37 +268,36 @@ export const AiSummaryCard: React.FC<AiSummaryCardProps> = ({
                   })}
                 </div>
               ) : (
-                // Unified paragraph display if sentence boundary parsing varies
-                <div className="p-4 rounded-lg bg-white/5 border border-indigo-700/30">
-                  <p className="text-sm md:text-base leading-relaxed text-indigo-50 font-normal">
+                <div className="p-3 bg-[#111111] border border-[#222222]">
+                  <p className="text-xs sm:text-sm leading-relaxed text-[#f0f0f0] font-mono">
                     {summaryData.summary}
                   </p>
                 </div>
               )}
             </div>
 
-            {/* Quick Metrics Bar showing the Ground Truth used */}
+            {/* Quick Monospace Verified Metrics Bar */}
             {summaryData.verifiedNumbers && (
-              <div className="pt-3 border-t border-indigo-800/40 flex flex-wrap items-center justify-between gap-3 text-xs">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-indigo-300/70 font-medium">Verified Numbers:</span>
-                  <span className="px-2 py-0.5 rounded bg-indigo-900/60 border border-indigo-700/40 text-indigo-200 font-mono">
-                    Region: {summaryData.verifiedNumbers.region}
+              <div className="pt-2.5 border-t border-[#1e1e1e] flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+                  <span className="text-[#ff8c00] font-bold">[VERIFIED METRICS]:</span>
+                  <span className="px-1.5 py-0.5 bg-[#141414] border border-[#2a2a2a] text-white">
+                    REGION: <span className="text-[#00e5ff] font-bold">{summaryData.verifiedNumbers.region}</span>
                   </span>
-                  <span className="px-2 py-0.5 rounded bg-indigo-900/60 border border-indigo-700/40 text-indigo-200 font-mono">
-                    Q2: ${summaryData.verifiedNumbers.q2Revenue.toLocaleString()}
+                  <span className="px-1.5 py-0.5 bg-[#141414] border border-[#2a2a2a] text-[#aaaaaa]">
+                    Q2: <span className="text-white font-bold">${summaryData.verifiedNumbers.q2Revenue.toLocaleString()}</span>
                   </span>
-                  <span className="px-2 py-0.5 rounded bg-indigo-900/60 border border-indigo-700/40 text-indigo-200 font-mono">
-                    Q3: ${summaryData.verifiedNumbers.q3Revenue.toLocaleString()}
+                  <span className="px-1.5 py-0.5 bg-[#141414] border border-[#2a2a2a] text-[#aaaaaa]">
+                    Q3: <span className="text-white font-bold">${summaryData.verifiedNumbers.q3Revenue.toLocaleString()}</span>
                   </span>
                   <span
-                    className={`px-2 py-0.5 rounded font-mono font-semibold ${
+                    className={`px-1.5 py-0.5 border font-bold tabular-nums ${
                       summaryData.verifiedNumbers.dollarDelta >= 0
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                        : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                        ? 'bg-[#002200] text-[#00ff66] border-[#00ff66]/40'
+                        : 'bg-[#220000] text-[#ff3b30] border-[#ff3b30]/40'
                     }`}
                   >
-                    Δ: {summaryData.verifiedNumbers.dollarDelta >= 0 ? '+' : ''}$
+                    SHIFT: {summaryData.verifiedNumbers.dollarDelta >= 0 ? '+' : ''}$
                     {summaryData.verifiedNumbers.dollarDelta.toLocaleString()} (
                     {summaryData.verifiedNumbers.pctDelta >= 0 ? '+' : ''}
                     {summaryData.verifiedNumbers.pctDelta.toFixed(1)}%)
@@ -310,14 +307,14 @@ export const AiSummaryCard: React.FC<AiSummaryCardProps> = ({
                 {/* Audit Drawer Toggle */}
                 <button
                   onClick={() => setShowAuditDrawer(!showAuditDrawer)}
-                  className="inline-flex items-center gap-1 text-xs text-indigo-300 hover:text-white transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1 text-[11px] text-[#ff8c00] hover:text-[#ffa500] font-bold transition-colors cursor-pointer"
                 >
-                  <FileText className="w-3.5 h-3.5" />
-                  <span>{showAuditDrawer ? 'Hide Ground Truth Calculations' : 'View Ground Truth Calculations'}</span>
+                  <FileText className="w-3 h-3" />
+                  <span>{showAuditDrawer ? 'HIDE GROUND TRUTH &lt;F9&gt;' : 'SHOW GROUND TRUTH &lt;F9&gt;'}</span>
                   {showAuditDrawer ? (
-                    <ChevronUp className="w-3.5 h-3.5" />
+                    <ChevronUp className="w-3 h-3" />
                   ) : (
-                    <ChevronDown className="w-3.5 h-3.5" />
+                    <ChevronDown className="w-3 h-3" />
                   )}
                 </button>
               </div>
@@ -325,19 +322,16 @@ export const AiSummaryCard: React.FC<AiSummaryCardProps> = ({
 
             {/* Collapsible Audit Drawer showing the prompt context fed to Gemini */}
             {showAuditDrawer && summaryData.calculatedContext && (
-              <div className="mt-3 p-4 bg-slate-950/80 rounded-lg border border-indigo-800/50 text-xs space-y-2">
-                <div className="flex items-center justify-between pb-2 border-b border-indigo-900/60">
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                    <span className="font-semibold text-slate-200">
-                      Calculated Data Context Provided to Gemini Prompt
-                    </span>
-                  </div>
-                  <span className="text-[10px] text-slate-400">
-                    Rule enforced: AI constrained to these figures exclusively
+              <div className="mt-2 p-3 bg-[#050505] border border-[#333333] text-xs space-y-1.5">
+                <div className="flex items-center justify-between pb-1.5 border-b border-[#222222]">
+                  <span className="font-bold text-[#ff8c00] text-[11px]">
+                    [PROMPT PAYLOAD // EXACT ARITHMETIC CONTEXT ENFORCED]
+                  </span>
+                  <span className="text-[10px] text-[#666666]">
+                    MODEL: {summaryData.modelUsed || 'GEMINI'}
                   </span>
                 </div>
-                <pre className="font-mono text-[11px] text-indigo-200/80 overflow-x-auto whitespace-pre-wrap leading-relaxed max-h-60 p-2 bg-slate-900 rounded border border-slate-800">
+                <pre className="font-mono text-[10px] text-[#00ff66] overflow-x-auto whitespace-pre-wrap leading-relaxed max-h-56 p-2 bg-[#0c0c0c] border border-[#1a1a1a]">
                   {summaryData.calculatedContext}
                 </pre>
               </div>

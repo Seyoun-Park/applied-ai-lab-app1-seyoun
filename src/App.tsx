@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { parseSalesCsv, SAMPLE_SALES_CSV } from './utils/csvParser';
 import { calculateSalesAnalysis } from './utils/salesCalculator';
 import { UploadSection } from './components/UploadSection';
@@ -6,15 +6,29 @@ import { KpiMetrics } from './components/KpiMetrics';
 import { ChartSection } from './components/ChartSection';
 import { TableSection } from './components/TableSection';
 import { AiSummaryCard } from './components/AiSummaryCard';
-import { BarChart2, Sparkles } from 'lucide-react';
+import { Terminal, Activity, FileSpreadsheet, BarChart3, Database } from 'lucide-react';
 
 export default function App() {
-  // Pre-load realistic enterprise demo data so the dashboard is immediately rich and interactive
+  // Pre-load realistic enterprise demo data
   const [csvText, setCsvText] = useState<string>(SAMPLE_SALES_CSV);
   const [fileName, setFileName] = useState<string>('Enterprise_Sales_Orders_Q1_Q4_Demo.csv');
   const [selectedMetric, setSelectedMetric] = useState<'dollar' | 'percent'>('dollar');
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [autoCleanEnabled, setAutoCleanEnabled] = useState<boolean>(true);
+  const [terminalTime, setTerminalTime] = useState<string>('');
+
+  // Live terminal clock
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTerminalTime(
+        now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC'
+      );
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Parse CSV with auto-clean option
   const parseResult = useMemo(() => {
@@ -33,40 +47,74 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/70 text-slate-800 pb-16">
-      {/* Top Navigation Bar */}
-      <header className="bg-white border-b border-slate-200/80 sticky top-0 z-40 shadow-2xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-[#050505] text-[#e0e0e0] font-mono selection:bg-[#ff8c00] selection:text-black pb-12">
+      {/* Bloomberg Terminal Top Navigation & Function Key Header */}
+      <header className="bg-[#0c0c0c] border-b-2 border-[#ff8c00] sticky top-0 z-40 shadow-md">
+        {/* Top Terminal Status Ticker */}
+        <div className="bg-[#121212] border-b border-[#222222] px-3 sm:px-6 py-1 flex items-center justify-between text-[11px] text-[#888888]">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-600 text-white rounded-xl shadow-xs">
-              <BarChart2 className="w-5 h-5" />
+            <span className="text-[#ff8c00] font-bold tracking-wider flex items-center gap-1.5">
+              <Terminal className="w-3.5 h-3.5 text-[#ff8c00]" />
+              BLOOMBERG TERMINAL
+            </span>
+            <span className="text-[#333333]">|</span>
+            <span className="text-[#00e5ff] font-semibold">QSR &lt;GO&gt;</span>
+            <span className="text-[#aaaaaa] hidden md:inline">QUARTERLY REGIONAL SALES MONITOR</span>
+          </div>
+
+          <div className="flex items-center gap-4 text-[11px]">
+            <span className="text-[#00ff66] hidden sm:flex items-center gap-1">
+              <Activity className="w-3 h-3 text-[#00ff66]" />
+              FEED: ACTIVE
+            </span>
+            <span className="text-[#333333] hidden sm:inline">|</span>
+            <span className="text-[#ffcc00] font-mono tabular-nums">{terminalTime || '2026-11-05 15:30:00 UTC'}</span>
+          </div>
+        </div>
+
+        {/* Command Bar & Active Workspace Info */}
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex flex-col md:flex-row md:items-center justify-between gap-2">
+          <div className="flex items-center gap-3">
+            <div className="bg-[#ff8c00] text-black px-2 py-0.5 text-xs font-extrabold tracking-wider">
+              COMMAND
             </div>
-            <div>
-              <h1 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                Quarterly Regional Sales Analytics
-                <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200/60">
-                  <Sparkles className="w-3 h-3 text-blue-500" />
-                  AI Powered
-                </span>
-              </h1>
-              <p className="text-[11px] text-slate-500 hidden sm:block">
-                Analyze quarterly revenue by region and synthesize Q2 → Q3 performance with Gemini
-              </p>
+            <div className="flex items-center gap-2 text-xs">
+              <span className="text-white font-bold tracking-wide">
+                ANR &lt;GO&gt; / REGIONAL SALES REVENUE &amp; VARIANCE ANALYSIS
+              </span>
+              <span className="hidden lg:inline text-[#ff8c00] text-[11px] border border-[#ff8c00]/50 px-1.5 py-0.2 bg-[#ff8c00]/10">
+                AI SYNTHESIS ACTIVE
+              </span>
             </div>
           </div>
 
           <div className="flex items-center gap-2 text-xs">
-            <span className="text-slate-500 hidden md:inline">Current dataset:</span>
-            <span className="font-mono text-slate-700 font-medium bg-slate-100 px-2 py-1 rounded border border-slate-200 text-xs truncate max-w-[200px]">
+            <span className="text-[#777777] uppercase text-[11px]">LOADED DATASET:</span>
+            <span className="text-[#00e5ff] bg-[#161616] border border-[#2a2a2a] px-2 py-0.5 text-xs font-semibold truncate max-w-[240px]">
               {fileName}
+            </span>
+            <span className="text-[#888888] text-[11px] hidden sm:inline">
+              [{parseResult.records.length} ROWS]
             </span>
           </div>
         </div>
+
+        {/* Function Keys Ribbon */}
+        <div className="bg-[#0a0a0a] border-t border-[#1e1e1e] px-3 sm:px-6 py-1 hidden sm:flex items-center gap-3 text-[10px] text-[#777777] overflow-x-auto">
+          <span className="hover:text-[#ff8c00] cursor-pointer"><span className="text-[#ff8c00] font-bold">&lt;F1&gt;</span> HELP</span>
+          <span className="hover:text-[#ff8c00] cursor-pointer"><span className="text-[#ff8c00] font-bold">&lt;F2&gt;</span> DATA INGEST</span>
+          <span className="hover:text-[#ff8c00] cursor-pointer"><span className="text-[#ff8c00] font-bold">&lt;F3&gt;</span> TELEMETRY</span>
+          <span className="hover:text-[#ff8c00] cursor-pointer"><span className="text-[#ff8c00] font-bold">&lt;F4&gt;</span> BI SYNTHESIS</span>
+          <span className="hover:text-[#ff8c00] cursor-pointer"><span className="text-[#ff8c00] font-bold">&lt;F5&gt;</span> GRAPH VIEW</span>
+          <span className="hover:text-[#ff8c00] cursor-pointer"><span className="text-[#ff8c00] font-bold">&lt;F6&gt;</span> FINANCIAL MATRIX</span>
+          <span className="hover:text-[#ff8c00] cursor-pointer"><span className="text-[#ff8c00] font-bold">&lt;F10&gt;</span> EXCEL EXPORT</span>
+          <span className="ml-auto text-[#00ff66] font-semibold">TERMINAL SECURITY: ENFORCED</span>
+        </div>
       </header>
 
-      {/* Main Content Dashboard */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
-        {/* Upload & CSV Management Section with Smart Data Cleaning Controls */}
+      {/* Main Terminal Workspace */}
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 pt-5 space-y-5">
+        {/* 01. CSV Ingest & Cleaning Section */}
         <UploadSection
           onDataLoaded={handleDataLoaded}
           currentRecords={parseResult.records}
@@ -81,20 +129,20 @@ export default function App() {
         {/* If valid records exist, display the full analytics suite */}
         {parseResult.records.length > 0 && (
           <>
-            {/* KPI Executive Metric Cards */}
+            {/* 02. Executive KPI Metrics */}
             <KpiMetrics analysis={analysis} selectedMetric={selectedMetric} />
 
-            {/* AI 3-Sentence Executive Summary Card */}
+            {/* 03. Bloomberg Intelligence AI Summary Card */}
             <AiSummaryCard
               analysis={analysis}
               selectedMetric={selectedMetric}
               onMetricChange={setSelectedMetric}
             />
 
-            {/* Total Revenue by Region and Quarter Chart */}
+            {/* 04. Regional & Quarterly Revenue Charts */}
             <ChartSection analysis={analysis} />
 
-            {/* Total Revenue by Region and Quarter Table */}
+            {/* 05. Financial Pivot Matrix & Variance Table */}
             <TableSection
               analysis={analysis}
               selectedMoverRegion={selectedRegion}

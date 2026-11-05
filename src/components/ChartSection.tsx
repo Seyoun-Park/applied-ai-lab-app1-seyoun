@@ -6,14 +6,14 @@ interface ChartSectionProps {
   analysis: SalesAnalysisResult;
 }
 
-// Crisp, accessible enterprise color palette for regions
+// Iconic high-contrast Bloomberg Terminal palette for regions
 const REGION_COLORS = [
-  { bg: '#3B82F6', hover: '#2563EB', text: 'text-blue-600', light: 'bg-blue-50 border-blue-200' }, // Blue
-  { bg: '#10B981', hover: '#059669', text: 'text-emerald-600', light: 'bg-emerald-50 border-emerald-200' }, // Emerald
-  { bg: '#8B5CF6', hover: '#7C3AED', text: 'text-purple-600', light: 'bg-purple-50 border-purple-200' }, // Purple
-  { bg: '#F59E0B', hover: '#D97706', text: 'text-amber-600', light: 'bg-amber-50 border-amber-200' }, // Amber
-  { bg: '#EC4899', hover: '#DB2777', text: 'text-pink-600', light: 'bg-pink-50 border-pink-200' }, // Pink
-  { bg: '#06B6D4', hover: '#0891B2', text: 'text-cyan-600', light: 'bg-cyan-50 border-cyan-200' }, // Cyan
+  { bg: '#ff8c00', hover: '#ffa500', text: 'text-[#ff8c00]', name: 'Amber' },   // Bloomberg Orange
+  { bg: '#00e5ff', hover: '#33eeff', text: 'text-[#00e5ff]', name: 'Cyan' },    // Bloomberg Cyan
+  { bg: '#00ff66', hover: '#33ff88', text: 'text-[#00ff66]', name: 'Green' },   // Bloomberg Green
+  { bg: '#ffd700', hover: '#ffe033', text: 'text-[#ffd700]', name: 'Yellow' },  // Bloomberg Gold
+  { bg: '#ff3366', hover: '#ff5588', text: 'text-[#ff3366]', name: 'Coral' },   // Bloomberg Coral
+  { bg: '#b388ff', hover: '#c49fff', text: 'text-[#b388ff]', name: 'Violet' },  // Bloomberg Violet
 ];
 
 const formatCurrency = (val: number): string => {
@@ -73,8 +73,8 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
 
   // Chart dimensions
   const svgWidth = 840;
-  const svgHeight = 360;
-  const padding = { top: 40, right: 30, bottom: 50, left: 75 };
+  const svgHeight = 350;
+  const padding = { top: 35, right: 30, bottom: 45, left: 75 };
   const innerWidth = svgWidth - padding.left - padding.right;
   const innerHeight = svgHeight - padding.top - padding.bottom;
 
@@ -82,64 +82,61 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
   const yTicks = [0, 0.25, 0.5, 0.75, 1];
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden p-6 transition-all">
-      {/* Header & Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-100 gap-4">
+    <div className="bg-[#0e0e0e] border border-[#262626] p-4 text-[#e0e0e0] space-y-3.5">
+      {/* Header & Mode Switcher */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#222222] gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
-              <BarChart3 className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-900 text-lg">Total Revenue by Region and Quarter</h3>
-              <p className="text-xs text-slate-500">
-                Visualizing quarterly sales distributions and regional trajectory
-              </p>
-            </div>
+            <h3 className="font-bold text-[#ff8c00] text-sm tracking-wider uppercase">
+              [04 // GRAPHICAL REVENUE DISTRIBUTION &amp; REGIONAL TRAJECTORY]
+            </h3>
           </div>
+          <p className="text-[11px] text-[#777777] mt-0.5 font-mono">
+            Quarterly revenue trajectory and cross-regional market volume
+          </p>
         </div>
 
         {/* Chart View Mode Selector */}
-        <div className="flex items-center bg-slate-100/80 p-1 rounded-lg text-xs font-medium text-slate-600 self-start sm:self-auto">
+        <div className="flex items-center bg-[#090909] border border-[#333333] p-0.5 text-xs font-mono self-start sm:self-auto">
           <button
             onClick={() => setChartType('grouped')}
-            className={`px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-all ${
+            className={`px-3 py-1 flex items-center gap-1.5 transition-all cursor-pointer ${
               chartType === 'grouped'
-                ? 'bg-white text-slate-900 shadow-sm font-semibold'
-                : 'hover:text-slate-900'
+                ? 'bg-[#ff8c00] text-black font-extrabold'
+                : 'text-[#888888] hover:text-white'
             }`}
           >
-            <BarChart3 className="w-3.5 h-3.5" />
-            Grouped Bars
+            <BarChart3 className="w-3 h-3" />
+            <span>GROUPED &lt;F5&gt;</span>
           </button>
           <button
             onClick={() => setChartType('stacked')}
-            className={`px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-all ${
+            className={`px-3 py-1 flex items-center gap-1.5 transition-all cursor-pointer ${
               chartType === 'stacked'
-                ? 'bg-white text-slate-900 shadow-sm font-semibold'
-                : 'hover:text-slate-900'
+                ? 'bg-[#ff8c00] text-black font-extrabold'
+                : 'text-[#888888] hover:text-white'
             }`}
           >
-            <Layers className="w-3.5 h-3.5" />
-            Stacked Total
+            <Layers className="w-3 h-3" />
+            <span>STACKED &lt;F6&gt;</span>
           </button>
           <button
             onClick={() => setChartType('by-region')}
-            className={`px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-all ${
+            className={`px-3 py-1 flex items-center gap-1.5 transition-all cursor-pointer ${
               chartType === 'by-region'
-                ? 'bg-white text-slate-900 shadow-sm font-semibold'
-                : 'hover:text-slate-900'
+                ? 'bg-[#ff8c00] text-black font-extrabold'
+                : 'text-[#888888] hover:text-white'
             }`}
           >
-            <TrendingUp className="w-3.5 h-3.5" />
-            Group by Region
+            <TrendingUp className="w-3 h-3" />
+            <span>BY REGION &lt;F7&gt;</span>
           </button>
         </div>
       </div>
 
-      {/* Interactive Legend */}
-      <div className="flex flex-wrap items-center gap-2 pt-4 pb-2">
-        <span className="text-xs font-medium text-slate-400 mr-1">Regions:</span>
+      {/* Terminal Interactive Legend */}
+      <div className="flex flex-wrap items-center gap-2 pt-1 pb-1">
+        <span className="text-[11px] font-bold text-[#ff8c00] mr-1">[FILTER]:</span>
         {regions.map((region) => {
           const color = regionColorMap[region];
           const isSelected = activeRegion === region;
@@ -147,35 +144,35 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
             <button
               key={region}
               onClick={() => setActiveRegion(isSelected ? null : region)}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border transition-all ${
+              className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-mono border transition-all cursor-pointer ${
                 isSelected
-                  ? 'border-slate-800 bg-slate-900 text-white shadow-xs'
+                  ? 'border-[#ff8c00] bg-[#ff8c00]/20 text-[#ff8c00] font-bold'
                   : activeRegion !== null
-                  ? 'opacity-40 border-slate-200 bg-white text-slate-600 hover:opacity-80'
-                  : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
+                  ? 'opacity-30 border-[#222222] bg-[#111111] text-[#666666]'
+                  : 'border-[#2a2a2a] bg-[#141414] text-[#cccccc] hover:border-[#444444]'
               }`}
             >
               <span
-                className="w-2.5 h-2.5 rounded-full"
+                className="w-2 h-2 inline-block"
                 style={{ backgroundColor: color?.bg || '#94A3B8' }}
               />
               <span>{region}</span>
-              {isSelected && <span className="text-[10px] ml-1 bg-slate-700 px-1 rounded">Filtered</span>}
+              {isSelected && <span className="text-[10px] text-[#ff8c00] font-bold ml-0.5">[ACTIVE]</span>}
             </button>
           );
         })}
         {activeRegion && (
           <button
             onClick={() => setActiveRegion(null)}
-            className="text-xs text-blue-600 hover:underline ml-2"
+            className="text-[11px] text-[#00e5ff] hover:underline ml-2 cursor-pointer font-bold"
           >
-            Reset filter
+            [SHOW ALL]
           </button>
         )}
       </div>
 
       {/* SVG Chart Container */}
-      <div className="relative mt-2 w-full overflow-x-auto">
+      <div className="relative mt-2 w-full overflow-x-auto bg-[#070707] border border-[#1c1c1c] p-2">
         <div className="min-w-[700px]">
           <svg
             viewBox={`0 0 ${svgWidth} ${svgHeight}`}
@@ -194,17 +191,17 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
                     y1={y}
                     x2={padding.left + innerWidth}
                     y2={y}
-                    stroke="#E2E8F0"
-                    strokeDasharray={tickRatio === 0 ? 'none' : '3 3'}
+                    stroke="#1a1a1a"
+                    strokeDasharray={tickRatio === 0 ? 'none' : '2 3'}
                     strokeWidth={tickRatio === 0 ? 1.5 : 1}
                   />
                   <text
                     x={padding.left - 10}
                     y={y + 4}
                     textAnchor="end"
-                    fontSize="11"
-                    fill="#64748B"
-                    className="font-mono"
+                    fontSize="10"
+                    fill="#666666"
+                    className="font-mono tabular-nums"
                   >
                     {formatCurrency(val)}
                   </text>
@@ -219,7 +216,7 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
                 const groupWidth = innerWidth / quarters.length;
                 const groupX = padding.left + qIdx * groupWidth;
                 const visibleRegions = activeRegion ? [activeRegion] : regions;
-                const barWidth = Math.min(36, (groupWidth * 0.75) / (visibleRegions.length || 1));
+                const barWidth = Math.min(34, (groupWidth * 0.75) / (visibleRegions.length || 1));
                 const totalBarSpan = barWidth * visibleRegions.length;
                 const startX = groupX + (groupWidth - totalBarSpan) / 2;
 
@@ -230,13 +227,15 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
                     {/* Quarter highlight band for Q2 / Q3 */}
                     {isQ2orQ3 && (
                       <rect
-                        x={groupX + 4}
+                        x={groupX + 2}
                         y={padding.top}
-                        width={groupWidth - 8}
+                        width={groupWidth - 4}
                         height={innerHeight}
-                        fill="#F8FAFC"
-                        rx="4"
-                        opacity={0.8}
+                        fill="#1a1300"
+                        stroke="#ff8c00"
+                        strokeWidth="0.5"
+                        strokeDasharray="2 2"
+                        opacity={0.35}
                       />
                     )}
 
@@ -257,13 +256,12 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
                       return (
                         <g key={region}>
                           <rect
-                            x={barX + 2}
+                            x={barX + 1}
                             y={barY}
-                            width={barWidth - 4}
+                            width={barWidth - 2}
                             height={barHeight}
-                            fill={color?.bg || '#3B82F6'}
-                            rx="3"
-                            className="transition-all duration-200 cursor-pointer hover:opacity-90"
+                            fill={color?.bg || '#ff8c00'}
+                            className="transition-opacity duration-150 cursor-pointer hover:opacity-80"
                             onMouseEnter={(e) => {
                               const rect = e.currentTarget.getBoundingClientRect();
                               setHoveredBar({
@@ -285,13 +283,14 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
                     {/* Quarter X-Axis Label */}
                     <text
                       x={groupX + groupWidth / 2}
-                      y={svgHeight - 15}
+                      y={svgHeight - 12}
                       textAnchor="middle"
-                      fontSize="13"
-                      fontWeight="600"
-                      fill={isQ2orQ3 ? '#0F172A' : '#475569'}
+                      fontSize="12"
+                      fontWeight="bold"
+                      fill={isQ2orQ3 ? '#ff8c00' : '#888888'}
+                      className="font-mono"
                     >
-                      {quarter}
+                      {quarter} {isQ2orQ3 ? '*' : ''}
                     </text>
                   </g>
                 );
@@ -333,10 +332,10 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
                           y={segmentY}
                           width={barWidth}
                           height={segmentHeight}
-                          fill={color?.bg || '#3B82F6'}
-                          stroke="#ffffff"
+                          fill={color?.bg || '#ff8c00'}
+                          stroke="#000000"
                           strokeWidth="1"
-                          className="transition-all duration-200 cursor-pointer hover:opacity-90"
+                          className="transition-opacity duration-150 cursor-pointer hover:opacity-80"
                           onMouseEnter={(e) => {
                             const rect = e.currentTarget.getBoundingClientRect();
                             setHoveredBar({
@@ -360,10 +359,10 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
                         x={barX + barWidth / 2}
                         y={padding.top + innerHeight - currentStackHeight - 6}
                         textAnchor="middle"
-                        fontSize="11"
-                        fontWeight="600"
-                        fill="#334155"
-                        className="font-mono"
+                        fontSize="10"
+                        fontWeight="bold"
+                        fill="#00ff66"
+                        className="font-mono tabular-nums"
                       >
                         {formatCurrency(qTotal)}
                       </text>
@@ -372,11 +371,12 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
                     {/* Quarter Label */}
                     <text
                       x={groupX + groupWidth / 2}
-                      y={svgHeight - 15}
+                      y={svgHeight - 12}
                       textAnchor="middle"
-                      fontSize="13"
-                      fontWeight="600"
-                      fill="#0F172A"
+                      fontSize="12"
+                      fontWeight="bold"
+                      fill="#ffffff"
+                      className="font-mono"
                     >
                       {quarter}
                     </text>
@@ -416,10 +416,9 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
                             y={barY}
                             width={barWidth - 2}
                             height={barHeight}
-                            fill={color?.bg || '#3B82F6'}
+                            fill={color?.bg || '#ff8c00'}
                             opacity={quarterOpacity}
-                            rx="2"
-                            className="cursor-pointer transition-all hover:opacity-100"
+                            className="cursor-pointer transition-opacity hover:opacity-100"
                             onMouseEnter={(e) => {
                               const rect = e.currentTarget.getBoundingClientRect();
                               setHoveredBar({
@@ -441,11 +440,12 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
                     {/* Region Label */}
                     <text
                       x={groupX + groupWidth / 2}
-                      y={svgHeight - 15}
+                      y={svgHeight - 12}
                       textAnchor="middle"
-                      fontSize="12"
-                      fontWeight="600"
-                      fill="#0F172A"
+                      fontSize="11"
+                      fontWeight="bold"
+                      fill="#e0e0e0"
+                      className="font-mono"
                     >
                       {region}
                     </text>
@@ -456,34 +456,32 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
           </svg>
         </div>
 
-        {/* Hover Tooltip Overlay */}
+        {/* Hover Tooltip Overlay (Bloomberg Terminal Box) */}
         {hoveredBar && (
           <div
-            className="fixed pointer-events-none z-50 bg-slate-900 text-white rounded-lg px-3 py-2 text-xs shadow-xl border border-slate-700 transform -translate-x-1/2 -translate-y-full -mt-2 transition-all"
+            className="fixed pointer-events-none z-50 bg-[#000000] text-white px-3 py-2 text-xs shadow-2xl border border-[#ff8c00] transform -translate-x-1/2 -translate-y-full -mt-2 font-mono"
             style={{ left: hoveredBar.x, top: hoveredBar.y }}
           >
-            <div className="flex items-center gap-2 mb-1 border-b border-slate-800 pb-1">
-              <span className="font-semibold text-slate-100">{hoveredBar.region}</span>
-              <span className="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono text-[10px]">
-                {hoveredBar.quarter}
-              </span>
+            <div className="flex items-center justify-between gap-4 mb-1 border-b border-[#333333] pb-1 text-[#ff8c00] font-bold text-[11px]">
+              <span>[{hoveredBar.region.toUpperCase()}]</span>
+              <span className="text-[#00e5ff]">{hoveredBar.quarter}</span>
             </div>
-            <div className="space-y-0.5 text-slate-300">
-              <div className="flex justify-between gap-4">
-                <span>Revenue:</span>
-                <span className="font-semibold text-white font-mono">
+            <div className="space-y-0.5 text-[11px]">
+              <div className="flex justify-between gap-5 text-[#888888]">
+                <span>REVENUE:</span>
+                <span className="font-bold text-white tabular-nums">
                   ${hoveredBar.revenue.toLocaleString()}
                 </span>
               </div>
-              <div className="flex justify-between gap-4">
-                <span>Units Sold:</span>
-                <span className="font-mono text-slate-200">
+              <div className="flex justify-between gap-5 text-[#888888]">
+                <span>UNITS SOLD:</span>
+                <span className="font-mono tabular-nums text-[#cccccc]">
                   {hoveredBar.units.toLocaleString()}
                 </span>
               </div>
-              <div className="flex justify-between gap-4">
-                <span>Quarter Share:</span>
-                <span className="font-mono text-emerald-400">
+              <div className="flex justify-between gap-5 text-[#888888]">
+                <span>QUARTER SHARE:</span>
+                <span className="font-mono tabular-nums font-bold text-[#00ff66]">
                   {hoveredBar.pctOfQuarter.toFixed(1)}%
                 </span>
               </div>
@@ -492,15 +490,15 @@ export const ChartSection: React.FC<ChartSectionProps> = ({ analysis }) => {
         )}
       </div>
 
-      {/* Footer Info & Q2 vs Q3 Notice */}
-      <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+      {/* Footer Info */}
+      <div className="pt-2 border-t border-[#1e1e1e] flex flex-wrap items-center justify-between text-[11px] text-[#777777] font-mono gap-2">
         <div className="flex items-center gap-1.5">
-          <Info className="w-3.5 h-3.5 text-slate-400" />
-          <span>Hover over any bar to inspect exact revenue, volume, and quarter share.</span>
+          <span className="text-[#ff8c00] font-bold">[TELEMETRY]:</span>
+          <span>HOVER OVER ANY VECTOR COLUMN TO INSPECT REVENUE, VOLUME &amp; QUARTER WEIGHT.</span>
         </div>
         {analysis.hasQ2AndQ3 && (
-          <div className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-800 border border-amber-200 rounded-md text-[11px] font-medium">
-            <span>Focus Area: Q2 to Q3 transition highlighted</span>
+          <div className="text-[#ffcc00] font-bold">
+            [*] Q2 &amp; Q3 PIVOT WINDOW HIGHLIGHTED
           </div>
         )}
       </div>

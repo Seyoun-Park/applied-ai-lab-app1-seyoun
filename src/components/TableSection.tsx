@@ -10,7 +10,6 @@ import {
   ChevronRight,
   TrendingUp,
   TrendingDown,
-  Sparkles,
 } from 'lucide-react';
 
 interface TableSectionProps {
@@ -137,53 +136,50 @@ export const TableSection: React.FC<TableSectionProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
+    <div className="bg-[#0e0e0e] border border-[#262626] text-[#e0e0e0] overflow-hidden">
       {/* Table Header Controls */}
-      <div className="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
-            <TableIcon className="w-5 h-5" />
-          </div>
-          <div>
-            <h3 className="font-semibold text-slate-900 text-lg">Total Revenue by Region & Quarter Table</h3>
-            <p className="text-xs text-slate-500">
-              Interactive pivot table with Q2 to Q3 performance differentials
-            </p>
-          </div>
+      <div className="p-4 border-b border-[#222222] bg-[#141414] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h3 className="font-bold text-[#ff8c00] text-sm tracking-wider uppercase">
+            [05 // REGIONAL SALES FINANCIAL MATRIX &amp; VARIANCE LEDGER]
+          </h3>
+          <p className="text-[11px] text-[#777777] font-mono mt-0.5">
+            Cross-tabulated quarterly pivot table with Q2 → Q3 variance analysis
+          </p>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={handleCopyTable}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-all"
+            className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-[#e0e0e0] bg-[#1a1a1a] hover:bg-[#252525] border border-[#3a3a3a] hover:border-[#ff8c00] transition-all cursor-pointer font-mono"
             title="Copy Table to Clipboard"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-slate-500" />}
-            <span>{copied ? 'Copied' : 'Copy'}</span>
+            {copied ? <Check className="w-3.5 h-3.5 text-[#00ff66]" /> : <Copy className="w-3.5 h-3.5 text-[#ff8c00]" />}
+            <span>{copied ? 'COPIED' : 'COPY &lt;CLIP&gt;'}</span>
           </button>
           <button
             onClick={handleExportCsv}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-all"
+            className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-extrabold text-black bg-[#ff8c00] hover:bg-[#ffa000] transition-all cursor-pointer font-mono tracking-wider"
             title="Export CSV"
           >
-            <Download className="w-3.5 h-3.5 text-slate-500" />
-            <span>Export CSV</span>
+            <Download className="w-3.5 h-3.5" />
+            <span>EXPORT CSV &lt;F10&gt;</span>
           </button>
         </div>
       </div>
 
-      {/* Table Viewport */}
+      {/* Terminal Pivot Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse text-sm">
+        <table className="w-full text-left border-collapse text-xs font-mono">
           <thead>
-            <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-600 text-xs uppercase tracking-wider font-semibold">
+            <tr className="bg-[#181818] border-b-2 border-[#2b2b2b] text-[#888888] uppercase tracking-wider text-[11px]">
               <th
                 onClick={() => handleSort('region')}
-                className="py-3.5 px-4 cursor-pointer hover:bg-slate-100 transition-colors"
+                className="py-2.5 px-3 cursor-pointer hover:bg-[#222222] text-[#ff8c00] transition-colors"
               >
                 <div className="flex items-center gap-1.5">
-                  <span>Region</span>
-                  <ArrowUpDown className="w-3 h-3 text-slate-400" />
+                  <span>REGION</span>
+                  <ArrowUpDown className="w-3 h-3 text-[#ff8c00]" />
                 </div>
               </th>
 
@@ -193,13 +189,13 @@ export const TableSection: React.FC<TableSectionProps> = ({
                   <th
                     key={q}
                     onClick={() => handleSort(q)}
-                    className={`py-3.5 px-4 text-right cursor-pointer hover:bg-slate-100 transition-colors ${
-                      isQ2orQ3 ? 'bg-amber-50/50 text-amber-900' : ''
+                    className={`py-2.5 px-3 text-right cursor-pointer hover:bg-[#222222] transition-colors ${
+                      isQ2orQ3 ? 'text-[#ffcc00] bg-[#1c1608]' : 'text-white'
                     }`}
                   >
                     <div className="flex items-center justify-end gap-1.5">
-                      <span>{q} Revenue</span>
-                      <ArrowUpDown className="w-3 h-3 text-slate-400" />
+                      <span>{q} REV {isQ2orQ3 ? '*' : ''}</span>
+                      <ArrowUpDown className="w-3 h-3 text-[#555555]" />
                     </div>
                   </th>
                 );
@@ -207,11 +203,11 @@ export const TableSection: React.FC<TableSectionProps> = ({
 
               <th
                 onClick={() => handleSort('total')}
-                className="py-3.5 px-4 text-right cursor-pointer hover:bg-slate-100 transition-colors bg-slate-100/60 font-bold"
+                className="py-2.5 px-3 text-right cursor-pointer hover:bg-[#222222] transition-colors text-[#00e5ff] font-bold bg-[#141b22]"
               >
                 <div className="flex items-center justify-end gap-1.5">
-                  <span>Total Revenue</span>
-                  <ArrowUpDown className="w-3 h-3 text-slate-400" />
+                  <span>TOTAL REV</span>
+                  <ArrowUpDown className="w-3 h-3 text-[#00e5ff]" />
                 </div>
               </th>
 
@@ -219,20 +215,20 @@ export const TableSection: React.FC<TableSectionProps> = ({
                 <>
                   <th
                     onClick={() => handleSort('q2q3_delta')}
-                    className="py-3.5 px-4 text-right cursor-pointer hover:bg-amber-100/60 transition-colors bg-amber-50 text-amber-900 font-bold border-l border-amber-200"
+                    className="py-2.5 px-3 text-right cursor-pointer hover:bg-[#222222] transition-colors text-[#ffd700] font-bold border-l border-[#262626] bg-[#1a1506]"
                   >
                     <div className="flex items-center justify-end gap-1.5">
-                      <span>Q2 → Q3 Δ ($)</span>
-                      <ArrowUpDown className="w-3 h-3 text-amber-600" />
+                      <span>Q2→Q3 Δ ($)</span>
+                      <ArrowUpDown className="w-3 h-3 text-[#ffd700]" />
                     </div>
                   </th>
                   <th
                     onClick={() => handleSort('q2q3_pct')}
-                    className="py-3.5 px-4 text-right cursor-pointer hover:bg-amber-100/60 transition-colors bg-amber-50 text-amber-900 font-bold"
+                    className="py-2.5 px-3 text-right cursor-pointer hover:bg-[#222222] transition-colors text-[#ffd700] font-bold bg-[#1a1506]"
                   >
                     <div className="flex items-center justify-end gap-1.5">
-                      <span>Q2 → Q3 Δ (%)</span>
-                      <ArrowUpDown className="w-3 h-3 text-amber-600" />
+                      <span>Q2→Q3 Δ (%)</span>
+                      <ArrowUpDown className="w-3 h-3 text-[#ffd700]" />
                     </div>
                   </th>
                 </>
@@ -240,8 +236,8 @@ export const TableSection: React.FC<TableSectionProps> = ({
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-slate-100 text-slate-700">
-            {sortedRegions.map((region) => {
+          <tbody className="divide-y divide-[#181818] text-[#cccccc]">
+            {sortedRegions.map((region, rIdx) => {
               const q2q3 = q2q3Map.get(region);
               const isSelected = selectedMoverRegion === region;
               const isExpanded = expandedRegion === region;
@@ -250,19 +246,23 @@ export const TableSection: React.FC<TableSectionProps> = ({
               return (
                 <React.Fragment key={region}>
                   <tr
-                    className={`transition-colors hover:bg-slate-50/80 cursor-pointer ${
-                      isSelected ? 'bg-blue-50/60 font-medium' : ''
+                    className={`transition-colors cursor-pointer ${
+                      isSelected
+                        ? 'bg-[#1c1800] text-white'
+                        : rIdx % 2 === 0
+                        ? 'bg-[#0a0a0a] hover:bg-[#141414]'
+                        : 'bg-[#0f0f0f] hover:bg-[#141414]'
                     }`}
                     onClick={() => {
                       if (onSelectRegion) onSelectRegion(region);
                       setExpandedRegion(isExpanded ? null : region);
                     }}
                   >
-                    <td className="py-3.5 px-4 font-medium text-slate-900">
-                      <div className="flex items-center gap-2">
+                    <td className="py-2.5 px-3 font-bold text-white">
+                      <div className="flex items-center gap-1.5">
                         <button
                           type="button"
-                          className="p-1 hover:bg-slate-200 rounded text-slate-400 transition-colors"
+                          className="p-0.5 hover:bg-[#262626] text-[#ff8c00] transition-colors"
                           onClick={(e) => {
                             e.stopPropagation();
                             setExpandedRegion(isExpanded ? null : region);
@@ -276,9 +276,8 @@ export const TableSection: React.FC<TableSectionProps> = ({
                         </button>
                         <span>{region}</span>
                         {isLargest && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300">
-                            <Sparkles className="w-2.5 h-2.5" />
-                            Top Mover
+                          <span className="text-[10px] text-[#ff8c00] font-extrabold border border-[#ff8c00]/50 px-1 py-0.2 bg-[#ff8c00]/10 ml-1">
+                            LEAD MOVER
                           </span>
                         )}
                       </div>
@@ -292,8 +291,8 @@ export const TableSection: React.FC<TableSectionProps> = ({
                       return (
                         <td
                           key={q}
-                          className={`py-3.5 px-4 text-right font-mono ${
-                            isQ2orQ3 ? 'bg-amber-50/20' : ''
+                          className={`py-2.5 px-3 text-right font-mono tabular-nums ${
+                            isQ2orQ3 ? 'bg-[#141005] text-[#ffea88]' : 'text-[#ffffff]'
                           }`}
                         >
                           {formatCurrency(rev)}
@@ -302,33 +301,32 @@ export const TableSection: React.FC<TableSectionProps> = ({
                     })}
 
                     {/* Total Revenue */}
-                    <td className="py-3.5 px-4 text-right font-mono font-semibold text-slate-900 bg-slate-50/40">
+                    <td className="py-2.5 px-3 text-right font-mono tabular-nums font-bold text-[#00e5ff] bg-[#0c141c]">
                       {formatCurrency(regionTotals[region] || 0)}
                     </td>
 
                     {/* Q2 -> Q3 Delta Columns */}
                     {hasQ2AndQ3 && q2q3 && (
                       <>
-                        <td className="py-3.5 px-4 text-right font-mono border-l border-slate-100 bg-amber-50/30">
+                        <td className="py-2.5 px-3 text-right font-mono tabular-nums border-l border-[#222222] bg-[#120e03]">
                           <span
-                            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded font-semibold text-xs ${
-                              q2q3.dollarDelta >= 0
-                                ? 'bg-emerald-100/80 text-emerald-800'
-                                : 'bg-rose-100/80 text-rose-800'
+                            className={`font-bold inline-flex items-center gap-1 ${
+                              q2q3.dollarDelta >= 0 ? 'text-[#00ff66]' : 'text-[#ff3b30]'
                             }`}
                           >
                             {q2q3.dollarDelta >= 0 ? (
-                              <TrendingUp className="w-3 h-3" />
+                              <TrendingUp className="w-3 h-3 text-[#00ff66]" />
                             ) : (
-                              <TrendingDown className="w-3 h-3" />
+                              <TrendingDown className="w-3 h-3 text-[#ff3b30]" />
                             )}
+                            {q2q3.dollarDelta >= 0 ? '+' : ''}
                             {formatCurrency(q2q3.dollarDelta)}
                           </span>
                         </td>
-                        <td className="py-3.5 px-4 text-right font-mono bg-amber-50/30">
+                        <td className="py-2.5 px-3 text-right font-mono tabular-nums bg-[#120e03]">
                           <span
-                            className={`font-semibold text-xs ${
-                              q2q3.pctDelta >= 0 ? 'text-emerald-700' : 'text-rose-700'
+                            className={`font-bold ${
+                              q2q3.pctDelta >= 0 ? 'text-[#00ff66]' : 'text-[#ff3b30]'
                             }`}
                           >
                             {formatPct(q2q3.pctDelta)}
@@ -338,102 +336,102 @@ export const TableSection: React.FC<TableSectionProps> = ({
                     )}
                   </tr>
 
-                  {/* Expanded Drawer: Product and Channel drivers for this region */}
+                  {/* Expanded Drawer: Terminal Sub-ledger breakdown for this region */}
                   {isExpanded && (
-                    <tr className="bg-slate-50/60">
-                      <td colSpan={quarters.length + (hasQ2AndQ3 ? 4 : 2)} className="p-4 pl-12 border-b border-slate-200">
-                        <div className="bg-white rounded-lg p-4 border border-slate-200 shadow-2xs space-y-3">
-                          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                            <span className="font-semibold text-xs uppercase tracking-wider text-slate-500">
-                              Detailed Q2 → Q3 Drivers in {region}
+                    <tr className="bg-[#050505]">
+                      <td colSpan={quarters.length + (hasQ2AndQ3 ? 3 : 2)} className="p-3 pl-8 border-y border-[#262626]">
+                        <div className="bg-[#0a0a0a] border border-[#ff8c00]/40 p-3 space-y-2.5">
+                          <div className="flex items-center justify-between pb-1.5 border-b border-[#222222]">
+                            <span className="font-bold text-[11px] uppercase tracking-wider text-[#ff8c00]">
+                              [SUB-LEDGER: Q2 → Q3 DRIVER DECOMPOSITION &middot; {region}]
                             </span>
-                            <span className="text-xs text-slate-400">
-                              Click any row again to collapse
+                            <span className="text-[10px] text-[#666666]">
+                              [CLICK ROW TO COLLAPSE]
                             </span>
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {/* Product Breakdown */}
                             <div>
-                              <p className="text-xs font-semibold text-slate-700 mb-2">
-                                Products (Q2 vs Q3 Revenue Shift):
+                              <p className="text-[11px] font-bold text-[#e0e0e0] mb-1.5 uppercase">
+                                [PRODUCTS // Q2 vs Q3 VARIANCE]:
                               </p>
                               {q2q3?.topProductDrivers && q2q3.topProductDrivers.length > 0 ? (
-                                <div className="space-y-1.5">
+                                <div className="space-y-1">
                                   {q2q3.topProductDrivers.map((p) => (
                                     <div
                                       key={p.name}
-                                      className="flex items-center justify-between text-xs p-2 bg-slate-50 rounded border border-slate-100"
+                                      className="flex items-center justify-between text-[11px] p-1.5 bg-[#121212] border border-[#1e1e1e]"
                                     >
-                                      <span className="font-medium text-slate-800">{p.name}</span>
+                                      <span className="font-semibold text-white">{p.name}</span>
                                       <div className="flex items-center gap-3">
-                                        <span className="text-slate-500 font-mono">
+                                        <span className="text-[#888888] font-mono tabular-nums">
                                           {formatCurrency(p.q2Revenue)} → {formatCurrency(p.q3Revenue)}
                                         </span>
                                         <span
-                                          className={`font-mono font-semibold ${
-                                            p.dollarDelta >= 0 ? 'text-emerald-600' : 'text-rose-600'
+                                          className={`font-mono tabular-nums font-bold ${
+                                            p.dollarDelta >= 0 ? 'text-[#00ff66]' : 'text-[#ff3b30]'
                                           }`}
                                         >
-                                          {formatCurrency(p.dollarDelta)}
+                                          {p.dollarDelta >= 0 ? '+' : ''}{formatCurrency(p.dollarDelta)}
                                         </span>
                                       </div>
                                     </div>
                                   ))}
                                 </div>
                               ) : (
-                                <p className="text-xs text-slate-400 italic">No Q2/Q3 product delta</p>
+                                <p className="text-[11px] text-[#666666] italic font-mono">No product delta recorded</p>
                               )}
                             </div>
 
                             {/* Channel Breakdown */}
                             <div>
-                              <p className="text-xs font-semibold text-slate-700 mb-2">
-                                Channels (Q2 vs Q3 Revenue Shift):
+                              <p className="text-[11px] font-bold text-[#e0e0e0] mb-1.5 uppercase">
+                                [CHANNELS // Q2 vs Q3 VARIANCE]:
                               </p>
                               {q2q3?.topChannelDrivers && q2q3.topChannelDrivers.length > 0 ? (
-                                <div className="space-y-1.5">
+                                <div className="space-y-1">
                                   {q2q3.topChannelDrivers.map((c) => (
                                     <div
                                       key={c.name}
-                                      className="flex items-center justify-between text-xs p-2 bg-slate-50 rounded border border-slate-100"
+                                      className="flex items-center justify-between text-[11px] p-1.5 bg-[#121212] border border-[#1e1e1e]"
                                     >
-                                      <span className="font-medium text-slate-800">{c.name}</span>
+                                      <span className="font-semibold text-[#00e5ff]">{c.name}</span>
                                       <div className="flex items-center gap-3">
-                                        <span className="text-slate-500 font-mono">
+                                        <span className="text-[#888888] font-mono tabular-nums">
                                           {formatCurrency(c.q2Revenue)} → {formatCurrency(c.q3Revenue)}
                                         </span>
                                         <span
-                                          className={`font-mono font-semibold ${
-                                            c.dollarDelta >= 0 ? 'text-emerald-600' : 'text-rose-600'
+                                          className={`font-mono tabular-nums font-bold ${
+                                            c.dollarDelta >= 0 ? 'text-[#00ff66]' : 'text-[#ff3b30]'
                                           }`}
                                         >
-                                          {formatCurrency(c.dollarDelta)}
+                                          {c.dollarDelta >= 0 ? '+' : ''}{formatCurrency(c.dollarDelta)}
                                         </span>
                                       </div>
                                     </div>
                                   ))}
                                 </div>
                               ) : (
-                                <p className="text-xs text-slate-400 italic">No Q2/Q3 channel delta</p>
+                                <p className="text-[11px] text-[#666666] italic font-mono">No channel delta recorded</p>
                               )}
                             </div>
                           </div>
 
                           {/* Extra Volume & Discount telemetry */}
                           {q2q3 && (
-                            <div className="pt-2 border-t border-slate-100 flex flex-wrap gap-4 text-xs text-slate-600">
+                            <div className="pt-2 border-t border-[#1e1e1e] flex flex-wrap gap-4 text-[11px] text-[#888888]">
                               <div>
-                                <span className="text-slate-400">Total Units:</span>{' '}
-                                <span className="font-mono font-medium">
+                                <span className="text-[#ff8c00]">TOTAL VOLUME:</span>{' '}
+                                <span className="font-mono text-white tabular-nums">
                                   Q2 {q2q3.q2Units.toLocaleString()} → Q3 {q2q3.q3Units.toLocaleString()} (
                                   {q2q3.deltaUnits >= 0 ? '+' : ''}
                                   {q2q3.deltaUnits.toLocaleString()} units)
                                 </span>
                               </div>
                               <div>
-                                <span className="text-slate-400">Avg Discount:</span>{' '}
-                                <span className="font-mono font-medium">
+                                <span className="text-[#ff8c00]">AVG DISCOUNT:</span>{' '}
+                                <span className="font-mono text-white tabular-nums">
                                   Q2 {q2q3.q2AvgDiscountPct.toFixed(1)}% → Q3 {q2q3.q3AvgDiscountPct.toFixed(1)}% (
                                   {q2q3.deltaDiscountPctPoint >= 0 ? '+' : ''}
                                   {q2q3.deltaDiscountPctPoint.toFixed(1)} pts)
@@ -452,37 +450,39 @@ export const TableSection: React.FC<TableSectionProps> = ({
 
           {/* Grand Totals Summary Row */}
           <tfoot>
-            <tr className="bg-slate-100/90 font-bold text-slate-900 border-t-2 border-slate-300">
-              <td className="py-4 px-4 text-slate-900">Grand Total</td>
+            <tr className="bg-[#141414] font-bold text-white border-t-2 border-[#ff8c00]">
+              <td className="py-3 px-3 text-[#ff8c00] uppercase font-extrabold tracking-wider">
+                GRAND TOTAL
+              </td>
               {quarters.map((q) => (
-                <td key={q} className="py-4 px-4 text-right font-mono">
+                <td key={q} className="py-3 px-3 text-right font-mono tabular-nums text-white">
                   {formatCurrency(quarterTotals[q] || 0)}
                 </td>
               ))}
-              <td className="py-4 px-4 text-right font-mono bg-slate-200/50">
+              <td className="py-3 px-3 text-right font-mono tabular-nums font-extrabold text-[#00e5ff] bg-[#0f1b26]">
                 {formatCurrency(grandTotalRevenue)}
               </td>
               {hasQ2AndQ3 && (
                 <>
-                  <td className="py-4 px-4 text-right font-mono border-l border-slate-200 bg-amber-100/30">
+                  <td className="py-3 px-3 text-right font-mono tabular-nums border-l border-[#262626] bg-[#1a1400]">
                     {(() => {
                       const totalQ2 = quarterTotals['Q2'] || 0;
                       const totalQ3 = quarterTotals['Q3'] || 0;
                       const delta = totalQ3 - totalQ2;
                       return (
-                        <span className={delta >= 0 ? 'text-emerald-800' : 'text-rose-800'}>
-                          {formatCurrency(delta)}
+                        <span className={`font-bold ${delta >= 0 ? 'text-[#00ff66]' : 'text-[#ff3b30]'}`}>
+                          {delta >= 0 ? '+' : ''}{formatCurrency(delta)}
                         </span>
                       );
                     })()}
                   </td>
-                  <td className="py-4 px-4 text-right font-mono bg-amber-100/30">
+                  <td className="py-3 px-3 text-right font-mono tabular-nums bg-[#1a1400]">
                     {(() => {
                       const totalQ2 = quarterTotals['Q2'] || 0;
                       const totalQ3 = quarterTotals['Q3'] || 0;
                       const pct = totalQ2 > 0 ? ((totalQ3 - totalQ2) / totalQ2) * 100 : 0;
                       return (
-                        <span className={pct >= 0 ? 'text-emerald-800' : 'text-rose-800'}>
+                        <span className={`font-bold ${pct >= 0 ? 'text-[#00ff66]' : 'text-[#ff3b30]'}`}>
                           {formatPct(pct)}
                         </span>
                       );

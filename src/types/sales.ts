@@ -77,6 +77,7 @@ export interface SalesAnalysisResult {
 
 export interface AiSummaryResponse {
   summary: string;
+  modelUsed?: string;
   calculatedContext: string;
   verifiedNumbers: {
     region: string;
