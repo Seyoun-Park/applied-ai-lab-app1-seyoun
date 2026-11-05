@@ -1,0 +1,7 @@
+{
+  "name": "Quarterly Sales Analytics & Q2-Q3 Insights",
+  "description": "Upload sales order CSV data to analyze regional revenue across quarters with interactive charts, breakdown tables, and verified AI summaries of Q2 to Q3 changes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
